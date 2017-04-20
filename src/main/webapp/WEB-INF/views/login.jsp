@@ -81,8 +81,6 @@ if(message == null||message.equals("")){
 											</div>
 											<div class="modal-body">
 												<p>请认真阅读本站用户协议，按照规定进行挂号！</p>
-												<p>在使用过程中有任何问题或者建议，欢迎
-													<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=naWvra6oqa6krN3s7LP_8vA" style="text-decoration:none;">给我写信</a>。</p>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">不接受</button>
@@ -99,7 +97,7 @@ if(message == null||message.equals("")){
 		</div>
 		</div>
 
-		<script src="./js/jquery-1.11.1.js"></script>
-		<script src="./js/bootstrap.min.js" ></script>
+		<script src="./scripts/jquery-1.11.1.js"></script>
+		<script src="./scripts/bootstrap.min.js" ></script>
   </body>
 </html>
