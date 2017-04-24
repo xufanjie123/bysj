@@ -23,6 +23,10 @@ public class Doctor implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9142701695320731322L;
 	private Integer id;
 	private Section section;
 	private String name;

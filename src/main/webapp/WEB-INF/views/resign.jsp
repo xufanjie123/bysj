@@ -19,7 +19,7 @@ if(message == null||message.equals("")){
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>登录</title>
+    <title>注册</title>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -39,25 +39,41 @@ if(message == null||message.equals("")){
   
   <body>
     <h1 style="text-align:center">医院挂号系统</h2>
-	<p style="text-align:center">登录</p>
+	<p style="text-align:center">注册</p>
 	<div style="margin:20px 0;"></div>
-	<div class="easyui-panel" title="登录" style="width:400px;padding:30px 60px;">
+	<div class="easyui-panel" title="注册" style="width:400px;padding:30px 60px;">
 		<div style="margin-bottom:20px">
 			<div>帐号:</div>
-			<input class="easyui-textbox" data-options="prompt:'请输入帐号'" style="width:100%;height:32px">
+			<input class="easyui-textbox" style="width:100%;height:32px">
 		</div>
 		<div style="margin-bottom:20px">
 			<div>密码:</div>
-			<input class="easyui-passwordbox" style="width:100%;height:32px">
+			<input id="password" name="password" validType="length[4,32]" 
+			required="true" type="password" value="" class="easyui-validatebox" style="width:100%;height:32px">
 		</div>
 		<div style="margin-bottom:20px">
-			<div>用户身份:</div>
-			<input type="radio" name="id" style="width:25%" checked="checked">患者
-			<input type="radio" name="id" style="width:25%">管理员
+			<div>确认密码:</div>
+			<input class="easyui-validatebox" style="width:100%;height:32px">
+		</div>
+		<div style="margin-bottom:20px">
+			<div>真实姓名:</div>
+			<input class="easyui-textbox" style="width:100%;height:32px">
+		</div>
+		<div style="margin-bottom:20px">
+			<div>性别:</div>
+			<input type="radio" name="gender" style="width:25%" checked="checked">男
+			<input type="radio" name="gender" style="width:25%">女
+		</div>
+		<div style="margin-bottom:20px">
+			<div>年龄:</div>
+			<input class="easyui-numberspinner" style="width:100%;height:32px">
+		</div>
+		<div style="margin-bottom:20px">
+			<div>病情描述:</div>
+			<input class="easyui-textbox" multiline="true" style="width:100%;height:50px">
 		</div>
 		<div>
-			<a href="#" class="easyui-linkbutton" style="width:49%;height:32px">登录</a>
-			<a href="/bysj/resign" class="easyui-linkbutton" style="width:49%;height:32px">注册</a>
+			<a href="/bysj/realresign" class="easyui-linkbutton" style="width:100%;height:32px">注册</a>
 		</div>
 	</div>
   </body>

@@ -22,6 +22,10 @@ public class Orders implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4272183558742761200L;
 	private Integer id;
 	private Patient patient;
 	private Doctor doctor;

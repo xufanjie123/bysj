@@ -21,6 +21,10 @@ public class Section implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4708239671652649284L;
 	private Integer id;
 	private String name;
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);

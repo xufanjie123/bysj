@@ -22,6 +22,10 @@ public class Doctorwork implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8719147945562016415L;
 	private Integer id;
 	private Doctor doctor;
 	private Date workdate;

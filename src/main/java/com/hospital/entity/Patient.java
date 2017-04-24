@@ -21,6 +21,10 @@ public class Patient implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6607858810390040533L;
 	private Integer id;
 	private String username;
 	private String password;
