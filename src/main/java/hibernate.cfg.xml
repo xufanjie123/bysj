@@ -4,9 +4,26 @@
 		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<property name="connection.url">
+			<![CDATA[
+        	jdbc:mysql://127.0.0.1:3306/hospitalsystem?useUnicode=true&characterEncoding=UTF-8
+        	]]>
+		</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+		<property name="connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+		<property name="myeclipse.connection.profile">test</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
+		<mapping class="com.hospital.entity.Admin"/>
+		<mapping class="com.hospital.entity.Doctor"/>
+		<mapping class="com.hospital.entity.Doctorwork"/>
+		<mapping class="com.hospital.entity.Orders"/>
+		<mapping class="com.hospital.entity.Patient"/>
+		<mapping class="com.hospital.entity.Section"/>
 	</session-factory>
 </hibernate-configuration>

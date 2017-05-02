@@ -128,4 +128,12 @@ public class Patient implements java.io.Serializable {
 		this.orderses = orderses;
 	}
 
+	@Override
+	public String toString() {
+		return "Patient [id=" + id + ", username=" + username + ", password=" + password + ", truename=" + truename
+				+ ", gender=" + gender + ", age=" + age + ", description=" + description + ", orderses=" + orderses
+				+ "]";
+	}
+	
+
 }
