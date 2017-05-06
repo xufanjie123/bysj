@@ -14,33 +14,6 @@
 %>
 <link rel="icon" href="<%=basePath%>/images/favicon.ico"  type="image/x-icon">
 <script type="text/javascript">
-//删除选中的挂号数据
-function deleteYuYue(){
-	//获得选中数据对象
-	var selectedRows=$("#dg").datagrid('getSelections');
-	if(selectedRows.length==0){
-		$.messager.alert("系统提示","请选择要删除的数据！");
-		return;
-	}
-	var strIds=[];//要删除的序号组合
-	for(var i=0;i<selectedRows.length;i++){
-		strIds.push(selectedRows[i].id);
-	}
-	var ids=strIds.join(",");
-	$.messager.confirm("系统提示","您确认要删掉这<font color=red>"+selectedRows.length+"</font>条数据吗？",function(r){
-		if(r){
-			//ajax提交 delIds
-			$.post("${root}" + "/back/orderInfo/deleteOrders",{ids:ids},function(result){
-				if(result.success){
-					$.messager.alert("系统提示","您已成功删除<font color=red>"+result.delNums+"</font>条数据！");
-					$("#dg").datagrid("reload");
-				}else{
-					$.messager.alert('系统提示',result.errorMsg);
-				}
-			},"json");
-		}
-	});
-}
 
 //查询符合条件的挂号信息
 function searchYuYue(){

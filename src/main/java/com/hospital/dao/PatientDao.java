@@ -21,6 +21,17 @@ import com.hospital.util.StringUtil;
 
 @Repository
 public class PatientDao {
+	public Patient getPatientById(int id){
+		Session session = HibernateUtil.getSession();
+		String hql = "from Patient where id = " + id;
+		Query query = session.createQuery(hql);
+		List<Patient> patients = query.list();
+		if(!patients.isEmpty()){
+			return patients.get(0);
+		}else {
+			return null;
+		}
+	}
 	public Patient getPatient(String name){
 		Session session = HibernateUtil.getSession();
 		String hql = "from Patient where username = " + "'" +name + "'";

@@ -63,6 +63,12 @@
 				attributes:{
 					url:"${root}" +"/views/front/orderInfo.jsp"
 				}
+			},{
+					text:"修改信息",
+					iconCls:"icon-manage",
+					attributes:{
+						url:"${root}" +"/views/front/patientInfo.jsp"
+					}
 			}]
 		}];
 		

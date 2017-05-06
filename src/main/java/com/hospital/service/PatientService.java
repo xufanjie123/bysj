@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hospital.dao.PatientDao;
+import com.hospital.entity.Doctorwork;
 import com.hospital.entity.PageBean;
 import com.hospital.entity.Patient;
+import com.hospital.util.HibernateUtil;
 import com.hospital.util.StringUtil;
 
 import net.sf.json.JSONArray;
@@ -18,6 +22,15 @@ import net.sf.json.JSONObject;
 public class PatientService {
 	@Autowired
 	private PatientDao patientDao;
+	public String savePatient(HttpSession session,Patient patient){
+		int pid = (Integer) session.getAttribute("currentUserId");
+		String pname = (String)session.getAttribute("currentUser");
+		patient.setId(pid);
+		patient.setUsername(pname);
+		patientDao.updatePatient(patient);
+		session.setAttribute("message", "修改成功");
+		return "/front/patientInfo";
+	}
 	public String login(String username,String password,HttpSession session){
 		Patient patient = patientDao.getPatient(username);
 		if(patient != null && password.equals(patient.getPassword())){
@@ -129,5 +142,9 @@ public class PatientService {
 			result.put("errorMsg", "删除失败");
 		}
 		return result;
+	}
+	public Patient getPatient(HttpSession session){
+		int pid = (Integer) session.getAttribute("currentUserId");
+		return patientDao.getPatientById(pid);
 	}
 }

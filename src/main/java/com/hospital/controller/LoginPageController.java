@@ -26,6 +26,7 @@ public class LoginPageController {
 	}
 	@RequestMapping("/realresign")
 	public String realresign(Patient patient,HttpSession session) throws UnsupportedEncodingException{
+		System.out.println(patient);
 		return patientService.resign(patient, session);
 	}
 	@RequestMapping("/login")
@@ -40,6 +41,7 @@ public class LoginPageController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session){
 		session.removeAttribute("currentUser");
+		session.removeAttribute("currentUserId");
 		return "/login";
 	}
 }
