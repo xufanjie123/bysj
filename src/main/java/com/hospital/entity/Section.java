@@ -26,8 +26,7 @@ public class Section implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -4708239671652649284L;
 	private Integer id;
-	private String name;
-	private Set<Doctor> doctors = new HashSet<Doctor>(0);
+	private String sectionname;
 
 	// Constructors
 
@@ -36,9 +35,8 @@ public class Section implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Section(String name, Set<Doctor> doctors) {
-		this.name = name;
-		this.doctors = doctors;
+	public Section(String sectionname) {
+		this.sectionname = sectionname;
 	}
 
 	// Property accessors
@@ -54,22 +52,22 @@ public class Section implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", length = 16)
-	public String getName() {
-		return this.name;
+	@Column(name = "sectionname", length = 16)
+	public String getSectionname() {
+		return sectionname;
+	}
+	public void setSectionname(String sectionname) {
+		this.sectionname = sectionname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public String toString() {
+		return "Section [id=" + id + ", sectionname=" + sectionname + "]";
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "section")
-	public Set<Doctor> getDoctors() {
-		return this.doctors;
-	}
 
-	public void setDoctors(Set<Doctor> doctors) {
-		this.doctors = doctors;
-	}
 
+	
+
+	
 }

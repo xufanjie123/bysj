@@ -39,7 +39,7 @@
 	
 	
 	<welcome-file-list>
-		<welcome-file>/WEB-INF/views/login.jsp</welcome-file>
+		<welcome-file>/views/login.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

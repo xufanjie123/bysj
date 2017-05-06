@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="<%=request.getContextPath()%>"></c:set>
 <title>后台信息管理系统</title>
 <%
 	String basePath = request.getScheme() + "://"
@@ -28,11 +30,11 @@
 		return;
 	}
 %>
-<link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/icon.css">
-<script type="text/javascript" src="jquery-easyui-1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/icon.css">
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function(){
 		// 数据
@@ -43,19 +45,13 @@
 				text:"医生信息管理",
 				iconCls:"icon-user",
 				attributes:{
-					url:"doctorInfoManage.jsp"
+					url:"${root}" +"/views/back/doctorInfo.jsp"
 				}
 			},{
 				text:"病人信息管理",
 				iconCls:"icon-user",
 				attributes:{
-					url:"sickInfoManage.jsp"
-				}
-			},{
-				text:"管理员账户",
-				iconCls:"icon-user",
-				attributes:{
-					url:"adminManage.jsp"
+					url:"${root}" +"/views/back/patientInfo.jsp"
 				}
 			}]
 		},{
@@ -65,13 +61,13 @@
 				text:"医生值班管理",
 				iconCls:"icon-manage",
 				attributes:{
-					url:"doctorWorkManage.jsp"
+					url:"${root}" +"/views/back/doctorWork.jsp"
 				}
 			},{
 				text:"病人挂号管理",
 				iconCls:"icon-manage",
 				attributes:{
-					url:"yuyueManage.jsp"
+					url:"${root}" +"/views/back/orderInfo.jsp"
 				}
 			}]
 		}];
@@ -106,7 +102,7 @@
 </head>
 <body class="easyui-layout">
 	<div region="north" style="height: 85px;background-color: #E0EDFF">
-		<div align="left" style="float: left; height:80px"><img src="images/logo_1.png"></div>
+		<div align="left" style="float: left; height:80px"><img src="images/logo_2.jpg"></div>
 		<div style="padding-top: 50px;padding-right: 20px; float:right">当前用户：&nbsp;<font color="red" >${currentUser}</font><a href="/bysj/logout" style="margin-left:20px;text-decoration:none">注销登录</a></div>
 		
 	</div>

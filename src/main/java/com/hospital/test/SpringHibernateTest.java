@@ -34,7 +34,6 @@ public class SpringHibernateTest {
 	}
 	@Test
 	public void testHibernate(){
-		PatientDao.getPatient("11");
 	}
 
 }

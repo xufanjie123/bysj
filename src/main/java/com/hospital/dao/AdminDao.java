@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.hospital.entity.Admin;
-import com.hospital.entity.Patient;
 import com.hospital.util.HibernateUtil;
 
 @Repository

@@ -27,8 +27,8 @@ public class Orders implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -4272183558742761200L;
 	private Integer id;
-	private Patient patient;
-	private Doctor doctor;
+	private Integer patientId;
+	private Integer doctorId;
 	private Date ordertime;
 	private Integer waitnum;
 
@@ -39,10 +39,10 @@ public class Orders implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Orders(Patient patient, Doctor doctor, Date ordertime,
+	public Orders(Integer patientId, Integer doctorId, Date ordertime,
 			Integer waitnum) {
-		this.patient = patient;
-		this.doctor = doctor;
+		this.patientId = patientId;
+		this.doctorId = doctorId;
 		this.ordertime = ordertime;
 		this.waitnum = waitnum;
 	}
@@ -60,24 +60,21 @@ public class Orders implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patientId")
-	public Patient getPatient() {
-		return this.patient;
+	@Column(name = "patientId")
+	public Integer getPatientId() {
+		return patientId;
+	}
+	public void setPatientId(Integer patientId) {
+		this.patientId = patientId;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	@Column(name = "doctorId")
+	public void setDoctorId(Integer doctorId) {
+		this.doctorId = doctorId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doctorId")
-	public Doctor getDoctor() {
-		return this.doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
+	public Integer getDoctorId() {
+		return doctorId;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -99,4 +96,11 @@ public class Orders implements java.io.Serializable {
 		this.waitnum = waitnum;
 	}
 
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", patientId=" + patientId + ", doctorId=" + doctorId + ", ordertime=" + ordertime
+				+ ", waitnum=" + waitnum + "]";
+	}
+	
+	
 }

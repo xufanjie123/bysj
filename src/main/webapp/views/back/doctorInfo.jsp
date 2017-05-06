@@ -2,6 +2,8 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="<%=request.getContextPath()%>"></c:set>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>医生信息管理</title>
@@ -12,14 +14,14 @@
 %>
 <link rel="icon" href="<%=basePath%>/images/favicon.ico"  type="image/x-icon">
 <script type="text/javascript">
-var url;
-var url1;
+var saveDoctorUrl;
+var saveDoctorWorkUrl;
 //打开新增患者对话框
 function openDoctorAddDialog(){
 	//在勾选情况下点击新增要先清除数据
+	saveDoctorUrl= "${root}" + "/back/doctorInfo/saveDoctor";//为url赋值
 	resetValue();
 	$("#dlg").dialog("open").dialog("setTitle","添加医生信息");
-	url="doctor!save";//为url赋值
 }
 //添加上班日期
 function openDoctorWorkAddDialog(){
@@ -30,7 +32,7 @@ function openDoctorWorkAddDialog(){
 		return;
 	}
 	var row=selectedRows[0];
-	url1="doctorwork!save?doctorId="+row.doctorId;
+	saveDoctorWorkUrl = "${root}" + "/back/doctorInfo/saveDoctorWork/"+row.id;
 	$("#dlg1").dialog("open").dialog("setTitle","添加医生信息");
 }
 
@@ -41,8 +43,7 @@ function resetValue(){
 	$("#birthday").datebox("setValue","");
 	$("#byyx").val("");
 	$("#cynx").val("");
-	$("#keshiId").combobox("setValue","");
-	
+	$("#keshiId").combobox("setValue","0");
 	$("#zhicheng").val("");
 	$("#zhuanchang").val("");
 	
@@ -64,7 +65,7 @@ function closeDoctorWorkDialog(){
 //提交新增患者数据
 function saveDoctor(){
 	$("#fm").form("submit",{
-		url:url,
+		url:saveDoctorUrl,
 		onSubmit:function(){
 			if($('#sex').combobox("getValue")==""){
 				$.messager.alert("系统提示","请选择性别");
@@ -91,13 +92,14 @@ function saveDoctor(){
 }
 function saveDoctorWrok(){
 	$("#fm1").form("submit",{
-		url:url1,
+		url:saveDoctorWorkUrl,
 		onSubmit:function(){
 			return $(this).form("validate");
 		},
 		success:function(result){
-			if(result.errorMsg){
-				$.messager.alert("系统提示",result.errorMsg);
+			var res = JSON.parse(result);
+			if(res.errorMsg){
+				$.messager.alert("系统提示",res.errorMsg);
 				return;
 			}else{
 				$.messager.alert("系统提示","保存成功");
@@ -118,13 +120,13 @@ function deleteDoctor(){
 	}
 	var strIds=[];//要删除的序号组合
 	for(var i=0;i<selectedRows.length;i++){
-		strIds.push(selectedRows[i].doctorId);
+		strIds.push(selectedRows[i].id);
 	}
 	var ids=strIds.join(",");
 	$.messager.confirm("系统提示","您确认要删掉这<font color=red>"+selectedRows.length+"</font>条数据吗？",function(r){
 		if(r){
 			//ajax提交 delIds
-			$.post("doctor!delete",{delIds:ids},function(result){
+			$.post("${root}" + "/back/doctorInfo/deleteDoctors",{ids:ids},function(result){
 				if(result.success){
 					$.messager.alert("系统提示","您已成功删除<font color=red>"+result.delNums+"</font>条数据！");
 					$("#dg").datagrid("reload");
@@ -144,50 +146,50 @@ function openDoctorModifyDialog(){
 	}
 	var row=selectedRows[0];
 	$("#dlg").dialog("open").dialog("setTitle","编辑医生资料");
-	$("#doctorName").val(row.doctorName);
-	$("#sex").combobox("setValue",row.sex);
+	$("#doctorName").val(row.name);
+	$("#sex").combobox("setValue",row.gender);
 	$("#birthday").datebox("setValue",row.birthday);
 
-	$("#byyx").val(row.byyx);
-	$("#cynx").val(row.cynx);
-	$("#keshiId").combobox("setValue",row.keshiId);
+	$("#byyx").val(row.school);
+	$("#cynx").val(row.worktime);
+	$("#keshiId").combobox("setValue",row.sectionId);
 	
-	$("#zhicheng").val(row.zhicheng);
-	$("#zhuanchang").val(row.zhuanchang);
+	$("#zhicheng").val(row.title);
+	$("#zhuanchang").val(row.skill);
 	
 	
-	url="doctor!save?doctorId="+row.doctorId;
+	saveDoctorUrl="${root}" + "/back/doctorInfo/saveDoctor/"+row.id;
 }
 //查询符合条件的用户
 function searchDoctor(){
 	$('#dg').datagrid('load',{
-		s_doctorName:$('#s_doctorName').val(),
-		s_sex:$('#s_sex').combobox("getValue"),
-		s_keshiId:$('#s_keshiId').combobox("getValue")
+		name:$('#s_doctorName').val(),
+		gender:$('#s_sex').combobox("getValue"),
+		section:$('#s_keshiId').combobox("getValue")
 	});
 }
 </script>
-<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="jquery-easyui-1.3.3/themes/icon.css">
-<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.min.js"></script>
-<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/icon.css">
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${root }/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body style="margin:5px">
 <table id="dg" title="医生信息" class="easyui-datagrid" fitColumns="true"
-	 pagination="true" rownumbers="true" url="doctor" fit="true" toolbar="#tb">
+	 pagination="true" rownumbers="true" url="${root }/back/doctorInfo/doctors" fit="true" toolbar="#tb">
 		<thead>
 			<tr>
 				<th field="cb" checkbox="true"></th>
-				<th field="doctorId" width="50" align="center" hidden="true">用户ID</th>
-				<th field="doctorName" width="120" align="center" >医生姓名</th>
-				<th field="sex" width="80"  align="center">性别</th>
+				<th field="id" width="50" align="center" hidden="true">用户ID</th>
+				<th field="name" width="120" align="center" >医生姓名</th>
+				<th field="gender" width="80"  align="center">性别</th>
 				<th field="birthday" width="120" align="center">出生日期</th>
-				<th field="byyx" width="150" align="center">毕业院校</th>
-				<th field="cynx" width="120" align="center">从业年限</th>
-				<th field="keshiName" width="80" align="center">科室</th>
-				<th field="zhicheng" width="80" align="center">职称</th>
-				<th field="zhuanchang" width="120" align="center">专长</th>
+				<th field="school" width="150" align="center">毕业院校</th>
+				<th field="worktime" width="120" align="center">从业年限</th>
+				<th field="sectionName" width="80" align="center">科室</th>
+				<th field="title" width="80" align="center">职称</th>
+				<th field="skill" width="120" align="center">专长</th>
 			</tr>
 		</thead>
 	</table>
@@ -200,27 +202,27 @@ function searchDoctor(){
 		</div>
 		<div>
 			<form id="export" method="post">
-			&nbsp;姓名：&nbsp;<input type="text" name="s_doctorName" id="s_doctorName" size="10"/>
-			&nbsp;性别：&nbsp;<select class="easyui-combobox" id="s_sex" name="s_sex" editable="false" panelHeight="auto">
+			&nbsp;姓名：&nbsp;<input type="text" name="name" id="s_doctorName" size="10"/>
+			&nbsp;性别：&nbsp;<select class="easyui-combobox" id="s_sex" name="gender" editable="false" panelHeight="auto">
 			    <option value="">请选择...</option>
 				<option value="男">男</option>
 				<option value="女">女</option>
 			</select>
-			&nbsp;科室：&nbsp;<input class="easyui-combobox" id="s_keshiId" name="s_keshiId" size="10" data-options="panelHeight:'auto',editable:false,valueField:'keshiId',textField:'keshiName',url:'keshi'"/>   
+			&nbsp;科室：&nbsp;<input class="easyui-combobox" id="s_keshiId" name="section" size="10" data-options="panelHeight:'auto',editable:false,valueField:'id',textField:'sectionname',url:'${root }'+ '/back/doctorInfo/sections'"/>   
 			<a href="javascript:searchDoctor()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
 			</form>
 		</div>
 	</div>
-		
+		//添加医生
 	<div id="dlg" class="easyui-dialog" style="width: 530px;height: 300px;padding: 10px 20px"
 		closed="true" buttons="#dlg-buttons">
 		<form id="fm" method="post">
 			<table cellspacing="5px;">
 				<tr>		
 					<td>医生姓名：</td>
-					<td><input type="text" name="doctor.doctorName" id="doctorName" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="name" id="doctorName" class="easyui-validatebox" required="true"/></td>
 					<td>性别：</td>
-					<td><select class="easyui-combobox" id="sex" name="doctor.sex" editable="false" panelHeight="auto" style="width: 155px">
+					<td><select class="easyui-combobox" id="sex" name="gender" editable="false" panelHeight="auto" style="width: 155px">
 					    <option value="">请选择...</option>
 						<option value="男">男</option>
 						<option value="女">女</option>
@@ -228,22 +230,22 @@ function searchDoctor(){
 				</tr>
 				<tr>
 					<td>出生日期：</td>
-					<td><input class="easyui-datebox" name="doctor.birthday" id="birthday" required="true" editable="false" /></td>
+					<td><input class="easyui-datebox" name="birthday" id="birthday" required="true" editable="false" /></td>
 					<td>毕业院校：</td>
-					<td><input type="text" name="doctor.byyx" id="byyx" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="school" id="byyx" class="easyui-validatebox" required="true"/></td>
 				</tr>
 				<tr>
 					<td>从业年限：</td>
-					<td><input type="text" name="doctor.cynx" id="cynx" class="easyui-validatebox" data-options="required:true,validType:'length[1,2]'"/></td>
+					<td><input type="text" name="worktime" id="cynx" class="easyui-validatebox" data-options="required:true,validType:'length[1,2]'"/></td>
 					<td>科室：</td>
-					<td><select class="easyui-combobox"  name="doctor.keshiId" id="keshiId" style="width: 155px" data-options="panelHeight:'auto',editable:false,valueField:'keshiId',textField:'keshiName',url:'keshi'"></select> 
+					<td><select class="easyui-combobox"  name="sectionId" id="keshiId" style="width: 155px" data-options="panelHeight:'auto',editable:false,valueField:'id',textField:'sectionname',url:'${root }'+ '/back/doctorInfo/sections'"></select> 
 					</td>
 				</tr>
 				<tr>
 					<td>职称：</td>
-					<td><input type="text" name="doctor.zhicheng" id="zhicheng" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="title" id="zhicheng" class="easyui-validatebox" required="true"/></td>
 					<td>专长：</td>
-					<td><input type="text" name="doctor.zhuanchang" id="zhuanchang" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="skill" id="zhuanchang" class="easyui-validatebox" required="true"/></td>
 				</tr>
 			</table>
 		</form>
@@ -252,21 +254,17 @@ function searchDoctor(){
 		<a href="javascript:saveDoctor()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 		<a href="javascript:closeDoctorDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 	</div>
-	<div id="dlg1" class="easyui-dialog" style="width: 270px;height: 220px;padding: 10px 20px"
+	<div id="dlg1" class="easyui-dialog" style="width: 270px;height: 180px;padding: 10px 20px"
 		closed="true" buttons="#dlg-buttons1">
 		<form id="fm1" method="post">
 			<table cellspacing="5px;">
 				<tr>
 					<td>上班日期：</td>
-					<td><input class="easyui-datebox" name="doctorwork.time" id="time" required="true" editable="false" /></td>
-				</tr>
-				<tr>
-					<td>预约数量：</td>
-					<td><input type="text" name="doctorwork.num" id="num" class="easyui-validatebox" required="true"/></td>
+					<td><input class="easyui-datebox" name="workdate" id="time" required="true" editable="false" /></td>
 				</tr>
 				<tr>
 					<td>最大预约数：</td>
-					<td><input type="text" name="doctorwork.maxnum" id="maxnum" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="maxNum" id="maxnum" class="easyui-validatebox" required="true"/></td>
 				</tr>
 			</table>
 		</form>

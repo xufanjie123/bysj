@@ -29,10 +29,9 @@ public class Patient implements java.io.Serializable {
 	private String username;
 	private String password;
 	private String truename;
-	private String gender;
-	private Integer age;
+	private String patientgender;
+	private Integer patientage;
 	private String description;
-	private Set<Orders> orderses = new HashSet<Orders>(0);
 
 	// Constructors
 
@@ -42,14 +41,13 @@ public class Patient implements java.io.Serializable {
 
 	/** full constructor */
 	public Patient(String username, String password, String truename,
-			String gender, Integer age, String description, Set<Orders> orderses) {
+			String patientgender, Integer patientage, String description) {
 		this.username = username;
 		this.password = password;
 		this.truename = truename;
-		this.gender = gender;
-		this.age = age;
+		this.patientgender = patientgender;
+		this.patientage = patientage;
 		this.description = description;
-		this.orderses = orderses;
 	}
 
 	// Property accessors
@@ -92,22 +90,20 @@ public class Patient implements java.io.Serializable {
 		this.truename = truename;
 	}
 
-	@Column(name = "gender", length = 8)
-	public String getGender() {
-		return this.gender;
+	@Column(name = "patientgender", length = 8)
+	public String getPatientgender() {
+		return patientgender;
+	}
+	public void setPatientgender(String patientgender) {
+		this.patientgender = patientgender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	@Column(name = "patientage")
+	public Integer getPatientage() {
+		return patientage;
 	}
-
-	@Column(name = "age")
-	public Integer getAge() {
-		return this.age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setPatientage(Integer patientage) {
+		this.patientage = patientage;
 	}
 
 	@Column(name = "description", length = 128)
@@ -119,21 +115,14 @@ public class Patient implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
-	public Set<Orders> getOrderses() {
-		return this.orderses;
-	}
-
-	public void setOrderses(Set<Orders> orderses) {
-		this.orderses = orderses;
-	}
-
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", username=" + username + ", password=" + password + ", truename=" + truename
-				+ ", gender=" + gender + ", age=" + age + ", description=" + description + ", orderses=" + orderses
+				+ ", patientgender=" + patientgender + ", patientage=" + patientage + ", description=" + description
 				+ "]";
 	}
+
+
 	
 
 }

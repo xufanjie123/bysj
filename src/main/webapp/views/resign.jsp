@@ -80,12 +80,12 @@ if(message == null||message.equals("")){
 		</div>
 		<div style="margin-bottom:20px">
 			<div>性别:</div>
-			<input type="radio" name="gender" value="男" style="width:25%" checked="checked">男
-			<input type="radio" name="gender" value="女" style="width:25%">女
+			<input type="radio" name="patientgender" value="男" style="width:25%" checked="checked">男
+			<input type="radio" name="patientgender" value="女" style="width:25%">女
 		</div>
 		<div style="margin-bottom:20px">
 			<div>年龄:</div>
-			<input name="age" class="easyui-numberspinner" style="width:100%;height:32px">
+			<input name="patientage" class="easyui-numberspinner" style="width:100%;height:32px">
 		</div>
 		<div style="margin-bottom:20px">
 			<div>病情描述:</div>

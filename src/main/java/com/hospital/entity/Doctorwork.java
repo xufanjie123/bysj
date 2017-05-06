@@ -22,12 +22,18 @@ public class Doctorwork implements java.io.Serializable {
 
 	// Fields
 
+	@Override
+	public String toString() {
+		return "Doctorwork [id=" + id + ", doctorId=" + doctorId + ", workdate=" + workdate + ", orderNum=" + orderNum
+				+ ", maxNum=" + maxNum + "]";
+	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8719147945562016415L;
 	private Integer id;
-	private Doctor doctor;
+	private Integer doctorId;
 	private Date workdate;
 	private Integer orderNum;
 	private Integer maxNum;
@@ -39,9 +45,9 @@ public class Doctorwork implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Doctorwork(Doctor doctor, Date workdate, Integer orderNum,
+	public Doctorwork(Integer doctorId, Date workdate, Integer orderNum,
 			Integer maxNum) {
-		this.doctor = doctor;
+		this.doctorId = doctorId;
 		this.workdate = workdate;
 		this.orderNum = orderNum;
 		this.maxNum = maxNum;
@@ -60,14 +66,12 @@ public class Doctorwork implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doctorId")
-	public Doctor getDoctor() {
-		return this.doctor;
+	@Column(name= "doctorId")
+	public Integer getDoctorId() {
+		return doctorId;
 	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
+	public void setDoctorId(Integer doctorId) {
+		this.doctorId = doctorId;
 	}
 
 	@Temporal(TemporalType.DATE)

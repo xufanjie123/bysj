@@ -13,8 +13,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.hospital.controller.LoginPageController;
+import com.hospital.entity.Doctor;
+import com.hospital.entity.PageBean;
 import com.hospital.entity.Patient;
 import com.hospital.util.HibernateUtil;
+import com.hospital.util.StringUtil;
 
 @Repository
 public class PatientDao {
@@ -29,11 +32,76 @@ public class PatientDao {
 		else 
 			return null;
 	}
-	public void addPatient(Patient patient){
+	public boolean addPatient(Patient patient){
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = session.beginTransaction();
 		session.save(patient);
 		transaction.commit();
 		session.close();
+		return true;
+	}
+	public List<Patient> getPatients(Patient patient,PageBean pageBean){
+		StringBuffer sb = new StringBuffer("from Patient ");
+		if(!StringUtil.isEmpty(patient.getUsername())){
+			sb.append("where username like '%" + patient.getUsername() + "%' ");
+		}
+		if(!StringUtil.isEmpty(patient.getTruename())){
+			sb.append("where truename like '%" + patient.getTruename() + "%' ");
+		}
+		if(!StringUtil.isEmpty(patient.getPatientgender())){
+			sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+		}
+		if(patient.getPatientage() != null){
+			sb.append("where patientage = " + patient.getPatientage());
+		}
+		String hql = sb.toString();
+		System.out.println(hql);
+		Session session = HibernateUtil.getSession();
+		Query query = session.createQuery(hql);
+		if(pageBean != null){
+			query.setFirstResult(pageBean.getStart());
+			query.setMaxResults(pageBean.getRows());
+		}
+		List<Patient> patientList = query.list();
+		session.close();
+		return patientList;
+	}
+	public int getPatientCount(Patient patient){
+		StringBuffer sb = new StringBuffer("select count(*) from Patient ");
+		if(!StringUtil.isEmpty(patient.getUsername())){
+			sb.append("where username like '%" + patient.getUsername() + "%' ");
+		}
+		if(!StringUtil.isEmpty(patient.getTruename())){
+			sb.append("where truename like '%" + patient.getTruename() + "%' ");
+		}
+		if(!StringUtil.isEmpty(patient.getPatientgender())){
+			sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+		}
+		if(patient.getPatientage() != null){
+			sb.append("where patientage = " + patient.getPatientage());
+		}
+		String hql = sb.toString();
+		Session session = HibernateUtil.getSession();
+		Query query = session.createQuery(hql);
+		int count = Integer.parseInt(query.list().get(0).toString());
+		return count;
+	}
+	public boolean updatePatient(Patient patient){
+		Session session = HibernateUtil.getSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(patient);
+		transaction.commit();
+		session.close();
+		return true;
+	}
+	public boolean deletePatientById(int id){
+		Session session = HibernateUtil.getSession();
+		Transaction transaction = session.beginTransaction();
+		String hql = "delete Patient p where p.id = " + id;
+		Query query = session.createQuery(hql);
+		query.executeUpdate();
+		transaction.commit();
+		session.close();
+		return true;
 	}
 }

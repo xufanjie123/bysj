@@ -1,5 +1,6 @@
 package com.hospital.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -28,16 +29,15 @@ public class Doctor implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -9142701695320731322L;
 	private Integer id;
-	private Section section;
-	private String name;
-	private String gender;
-	private Integer age;
+	private Integer sectionId;
+	private String doctorname;
+	private String doctorgender;
+	private Date birthday;
 	private String school;
 	private Integer worktime;
 	private String title;
 	private String skill;
-	private Set<Doctorwork> doctorworks = new HashSet<Doctorwork>(0);
-	private Set<Orders> orderses = new HashSet<Orders>(0);
+
 
 	// Constructors
 
@@ -46,19 +46,16 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Doctor(Section section, String name, String gender, Integer age,
-			String school, Integer worktime, String title, String skill,
-			Set<Doctorwork> doctorworks, Set<Orders> orderses) {
-		this.section = section;
-		this.name = name;
-		this.gender = gender;
-		this.age = age;
+	public Doctor(Integer sectionId, String doctorname, String doctorgender,Date birthday,
+			String school, Integer worktime, String title, String skill) {
+		this.sectionId = sectionId;
+		this.doctorname = doctorname;
+		this.doctorgender = doctorgender;
+		this.birthday = birthday;
 		this.school = school;
 		this.worktime = worktime;
 		this.title = title;
 		this.skill = skill;
-		this.doctorworks = doctorworks;
-		this.orderses = orderses;
 	}
 
 	// Property accessors
@@ -74,41 +71,43 @@ public class Doctor implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sectionId")
-	public Section getSection() {
-		return this.section;
+	@Column(name = "sectionId")
+	public Integer getSectionId() {
+		return sectionId;
+	}
+	public void setSectionId(Integer sectionId) {
+		this.sectionId = sectionId;
 	}
 
-	public void setSection(Section section) {
-		this.section = section;
+	@Override
+	public String toString() {
+		return "Doctor [id=" + id + ", sectionId=" + sectionId + ", doctorname=" + doctorname + ", doctorgender="
+				+ doctorgender + ", birthday=" + birthday + ", school=" + school + ", worktime=" + worktime + ", title="
+				+ title + ", skill=" + skill + "]";
 	}
 
-	@Column(name = "name", length = 16)
-	public String getName() {
-		return this.name;
+	@Column(name = "doctorname", length = 16)
+	public String getDoctorname() {
+		return doctorname;
+	}
+	public void setDoctorname(String doctorname) {
+		this.doctorname = doctorname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@Column(name = "doctorgender", length = 8)
+	public String getDoctorgender() {
+		return doctorgender;
 	}
-
-	@Column(name = "gender", length = 8)
-	public String getGender() {
-		return this.gender;
+	public void setDoctorgender(String doctorgender) {
+		this.doctorgender = doctorgender;
 	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
+	
+	@Column(name = "birthday")
+	public Date getBirthday() {
+		return birthday;
 	}
-
-	@Column(name = "age")
-	public Integer getAge() {
-		return this.age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	@Column(name = "school", length = 32)
@@ -147,22 +146,5 @@ public class Doctor implements java.io.Serializable {
 		this.skill = skill;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")
-	public Set<Doctorwork> getDoctorworks() {
-		return this.doctorworks;
-	}
-
-	public void setDoctorworks(Set<Doctorwork> doctorworks) {
-		this.doctorworks = doctorworks;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")
-	public Set<Orders> getOrderses() {
-		return this.orderses;
-	}
-
-	public void setOrderses(Set<Orders> orderses) {
-		this.orderses = orderses;
-	}
 
 }
