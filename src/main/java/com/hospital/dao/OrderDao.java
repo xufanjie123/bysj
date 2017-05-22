@@ -3,6 +3,7 @@ package com.hospital.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class OrderDao {
 	public ResultSet orderList(PageBean pageBean, Patient patient,
 			Doctor doctor, String stdate, String eddate) throws Exception {
 		Connection con = new DbUtil().getCon();
-		StringBuffer sb=new StringBuffer("SELECT o.id,p.truename,p.patientgender,o.ordertime,"
+		StringBuffer sb=new StringBuffer("SELECT o.id,p.truename,p.patientgender,p.patientage,p.description,o.ordertime,"
 				+ "d.doctorname,s.sectionname,d.title,o.waitnum"
 				+ " FROM orders o ,patient p ,doctor d,section s WHERE o.patientId=p.id AND o.doctorId=d.id AND d.sectionId=s.id");
 		if(!StringUtil.isEmpty(patient.getTruename())){
@@ -58,12 +59,16 @@ public class OrderDao {
 		if(patient.getId() != null){
 			sb.append(" and p.id = " + patient.getId());
 		}
+		if(doctor.getId() != null){
+			sb.append(" and d.id = " + doctor.getId());
+		}
+		sb.append(" order by o.ordertime");
 		// 分页
 		if (pageBean != null) {
 			sb.append(" limit " + pageBean.getStart() + ","
 					+ pageBean.getRows());
 		}
-		System.out.println(sb.toString());
+//		System.out.println(sb.toString());
 		PreparedStatement pstmt = con.prepareStatement(sb.toString());
 		return pstmt.executeQuery();
 	}
@@ -89,6 +94,9 @@ public class OrderDao {
 		if(patient.getId() != null){
 			sb.append(" and p.id = " + patient.getId());
 		}
+		if(doctor.getId() != null){
+			sb.append(" and d.id = " + doctor.getId());
+		}
 		PreparedStatement pstmt=con.prepareStatement(sb.toString());
 		ResultSet rs=pstmt.executeQuery();
 		if(rs.next()){
@@ -107,10 +115,10 @@ public class OrderDao {
 		session.close();
 		return true;
 	}
-	public int getMaxWaitNum(int did,Date date){
+	public int getMaxWaitNum(int did,Timestamp date){
 		Session session = HibernateUtil.getSession();
 		String hql1 = "select max(waitnum) from Orders where doctorId = " + did
-				+ " and ordertime = '" + DataUtil.formatDate(date, "yyyy-MM-dd") + "'";
+				+ " and ordertime = '" + DataUtil.formatDate(date, "yyyy-MM-dd HH:mm") + "'";
 		Query query = session.createQuery(hql1);
 		if(query.list().get(0) == null){
 			return 0;

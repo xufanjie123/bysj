@@ -108,6 +108,10 @@ function openSickModifyDialog(){
 }
 //查询符合条件的用户
 function searchSick(){
+	$('#s_sickName1').val($('#s_sickName').val());
+	$('#s_trueName1').val($('#s_trueName').val());
+	$('#s_sex1').val($('#s_sex').combobox("getValue"));
+	$('#s_age1').val($('#s_age').val());
 	$('#dg').datagrid('load',{
 		name:$('#s_sickName').val(),
 		truename:$('#s_trueName').val(),
@@ -115,7 +119,9 @@ function searchSick(){
 		age:$('#s_age').val()
 	});
 }
-
+function export1(){
+	$('#submit11').trigger("click");
+}
 </script>
 <link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${root }/jquery-easyui-1.5.2/themes/icon.css">
@@ -134,7 +140,7 @@ function searchSick(){
 				<th field="truename" width="100"  align="center">真实姓名</th>
 				<th field="gender" width="50"  align="center">性别</th>
 				<th field="age" width="100" align="center">年龄</th>
-				<th field="description" width="200" align="center">症状描述</th>
+				<th field="description" width="200" align="center">手机号码</th>
 			</tr>
 		</thead>
 	</table>
@@ -143,6 +149,7 @@ function searchSick(){
 			<a href="javascript:openSickAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
 			<a href="javascript:openSickModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
 			<a href="javascript:deleteSick()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+			<a href="javascript:export1()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">导出</a>
 		</div>
 		<div>
 			<form id="export" method="post">
@@ -156,6 +163,15 @@ function searchSick(){
 			&nbsp;年龄：&nbsp;<input type="text" name="age" id="s_age" size="10"/>
 			<a href="javascript:searchSick()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
 			</form>
+		</div>
+		<div>
+			<form id="export11" style="display: none;" method="post" action="${root }/back/patientInfo/export">
+			<input type="hidden" name="name" id="s_sickName1" value=""/>
+			<input type="hidden" name="truename" id="s_sickName1" value=""/>
+			<input type="hidden" name="gender" id="s_sex1" value=""/>
+			<input type="hidden" name="age" id="s_age1" value=""/>
+			<input type="submit" id="submit11">
+			</form>	
 		</div>
 	</div>
 		
@@ -187,8 +203,8 @@ function searchSick(){
 				
 				</tr>
 				<tr>
-					<td valign="top">症状描述：</td>
-					<td colspan="4"><textarea rows="7" cols="46" name="description" id="sickDesc"></textarea></td>
+					<td valign="top">手机号</td>
+					<td colspan="4"><input type="text" name="description" id="sickDesc" class="easyui-validatebox" data-options="required:true" validType="length[11,11]"></td>
 				</tr>
 			</table>
 		</form>

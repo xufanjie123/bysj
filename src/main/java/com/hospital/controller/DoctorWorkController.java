@@ -25,8 +25,9 @@ public class DoctorWorkController {
 	private DoctorWorkService doctorWorkService;
 	@RequestMapping("/doctorworks")
 	@ResponseBody
-	public JSONObject getDoctorworks(String name,String section,int page,int rows) throws Exception{
-		return doctorWorkService.getDoctorworks(name, section, page, rows);
+	public JSONObject getDoctorworks(String name,String stdate,
+			String eddate,String section,int page,int rows) throws Exception{
+		return doctorWorkService.getDoctorworks(name,stdate,eddate,section, page, rows);
 	}
 	@RequestMapping("/sections")
 	@ResponseBody

@@ -1,5 +1,6 @@
 package com.hospital.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Doctorwork implements java.io.Serializable {
 	private static final long serialVersionUID = 8719147945562016415L;
 	private Integer id;
 	private Integer doctorId;
-	private Date workdate;
+	private Timestamp workdate;
 	private Integer orderNum;
 	private Integer maxNum;
 
@@ -45,7 +46,7 @@ public class Doctorwork implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Doctorwork(Integer doctorId, Date workdate, Integer orderNum,
+	public Doctorwork(Integer doctorId, Timestamp workdate, Integer orderNum,
 			Integer maxNum) {
 		this.doctorId = doctorId;
 		this.workdate = workdate;
@@ -74,13 +75,12 @@ public class Doctorwork implements java.io.Serializable {
 		this.doctorId = doctorId;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "workdate", length = 10)
-	public Date getWorkdate() {
+	public Timestamp getWorkdate() {
 		return this.workdate;
 	}
 
-	public void setWorkdate(Date workdate) {
+	public void setWorkdate(Timestamp workdate) {
 		this.workdate = workdate;
 	}
 

@@ -53,17 +53,37 @@ public class PatientDao {
 	}
 	public List<Patient> getPatients(Patient patient,PageBean pageBean){
 		StringBuffer sb = new StringBuffer("from Patient ");
+		boolean flag = false;
 		if(!StringUtil.isEmpty(patient.getUsername())){
 			sb.append("where username like '%" + patient.getUsername() + "%' ");
+			flag = true;
 		}
 		if(!StringUtil.isEmpty(patient.getTruename())){
-			sb.append("where truename like '%" + patient.getTruename() + "%' ");
+			if(flag == true){
+				sb.append("and truename like '%" + patient.getTruename() + "%' ");
+			}
+			else {
+				sb.append("where truename like '%" + patient.getTruename() + "%' ");
+				flag = true;
+			}
 		}
 		if(!StringUtil.isEmpty(patient.getPatientgender())){
-			sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+			if(flag == true){
+				sb.append("and patientgender = '" + patient.getPatientgender() + "' ");
+			}
+			else {
+				sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+				flag = true;
+			}
 		}
 		if(patient.getPatientage() != null){
-			sb.append("where patientage = " + patient.getPatientage());
+			if(flag == true){
+				sb.append("and patientage = " + patient.getPatientage());
+			}
+			else {
+				sb.append("where patientage = " + patient.getPatientage());
+				flag = true;
+			}
 		}
 		String hql = sb.toString();
 		System.out.println(hql);
@@ -79,17 +99,37 @@ public class PatientDao {
 	}
 	public int getPatientCount(Patient patient){
 		StringBuffer sb = new StringBuffer("select count(*) from Patient ");
+		boolean flag = false;
 		if(!StringUtil.isEmpty(patient.getUsername())){
 			sb.append("where username like '%" + patient.getUsername() + "%' ");
+			flag = true;
 		}
 		if(!StringUtil.isEmpty(patient.getTruename())){
-			sb.append("where truename like '%" + patient.getTruename() + "%' ");
+			if(flag == true){
+				sb.append("and truename like '%" + patient.getTruename() + "%' ");
+			}
+			else {
+				sb.append("where truename like '%" + patient.getTruename() + "%' ");
+				flag = true;
+			}
 		}
 		if(!StringUtil.isEmpty(patient.getPatientgender())){
-			sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+			if(flag == true){
+				sb.append("and patientgender = '" + patient.getPatientgender() + "' ");
+			}
+			else {
+				sb.append("where patientgender = '" + patient.getPatientgender() + "' ");
+				flag = true;
+			}
 		}
 		if(patient.getPatientage() != null){
-			sb.append("where patientage = " + patient.getPatientage());
+			if(flag == true){
+				sb.append("and patientage = " + patient.getPatientage());
+			}
+			else {
+				sb.append("where patientage = " + patient.getPatientage());
+				flag = true;
+			}
 		}
 		String hql = sb.toString();
 		Session session = HibernateUtil.getSession();

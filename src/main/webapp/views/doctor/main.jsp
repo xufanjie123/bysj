@@ -42,33 +42,17 @@
 			text:"基础操作",
 			iconCls:"icon-menu",
 			children:[{
-				text:"医生信息",
+				text:"值班信息",
 				iconCls:"icon-user",
 				attributes:{
-					url:"${root}" +"/views/front/doctorInfo.jsp"
+					url:"${root}" +"/views/doctor/doctorWork.jsp"
 				}
 			},{
-				text:"排班挂号",
+				text:"挂号信息",
 				iconCls:"icon-user",
 				attributes:{
-					url:"${root}" +"/views/front/doctorWork.jsp"
+					url:"${root}" +"/views/doctor/orderInfo.jsp"
 				}
-			}]
-		},{
-			text:"挂号信息",
-			iconCls:"icon-menu",
-			children:[{
-				text:"我的预约",
-				iconCls:"icon-manage",
-				attributes:{
-					url:"${root}" +"/views/front/orderInfo.jsp"
-				}
-			},{
-					text:"修改信息",
-					iconCls:"icon-manage",
-					attributes:{
-						url:"${root}" +"/views/front/patientInfo.jsp"
-					}
 			}]
 		}];
 		

@@ -1,5 +1,7 @@
 package com.hospital.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,5 +38,10 @@ public class PatientInfoPageController {
 	@ResponseBody
 	public JSONObject deletePatinets(String ids){
 		return patientServie.deletePatinets(ids);
+	}
+	@RequestMapping("/export")
+	public String export(String name,String truename,String gender,String age,HttpServletResponse response){
+		patientServie.export(name,truename,gender,age,response);
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.hospital.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Orders implements java.io.Serializable {
 	private Integer id;
 	private Integer patientId;
 	private Integer doctorId;
-	private Date ordertime;
+	private Timestamp ordertime;
 	private Integer waitnum;
 
 	// Constructors
@@ -39,7 +40,7 @@ public class Orders implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Orders(Integer patientId, Integer doctorId, Date ordertime,
+	public Orders(Integer patientId, Integer doctorId, Timestamp ordertime,
 			Integer waitnum) {
 		this.patientId = patientId;
 		this.doctorId = doctorId;
@@ -77,13 +78,12 @@ public class Orders implements java.io.Serializable {
 		return doctorId;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "ordertime", length = 10)
-	public Date getOrdertime() {
+	public Timestamp getOrdertime() {
 		return this.ordertime;
 	}
 
-	public void setOrdertime(Date ordertime) {
+	public void setOrdertime(Timestamp ordertime) {
 		this.ordertime = ordertime;
 	}
 

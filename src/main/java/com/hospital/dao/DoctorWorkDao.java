@@ -39,9 +39,8 @@ public class DoctorWorkDao {
 			return 0;
 		}
 	}
-	public ResultSet doctorListRs(PageBean pageBean,
-			Doctor doctor) throws Exception {
-		System.out.println(doctor);
+	public ResultSet doctorListRs(PageBean pageBean,String stdate,
+			String eddate,Doctor doctor) throws Exception {
 		Connection con = new DbUtil().getCon();
 		StringBuffer sb = new StringBuffer(
 				"select w.id,d.doctorname,d.doctorgender,s.sectionname,w.workdate,w.ordernum,w.maxnum"
@@ -53,6 +52,13 @@ public class DoctorWorkDao {
 			sb.append(" and d.doctorname like '%" + doctor.getDoctorname()
 					+ "%'");
 		}
+		if(!StringUtil.isEmpty(stdate)){
+			sb.append(" and TO_DAYS(w.workdate)>=TO_DAYS('"+stdate+"')");
+		}
+		if(!StringUtil.isEmpty(eddate)){
+			sb.append(" and TO_DAYS(w.workdate)<=TO_DAYS('"+eddate+"')");
+		}
+		sb.append(" order by w.workdate");
 		// 分页
 		if (pageBean != null) {
 			sb.append(" limit " + pageBean.getStart() + ","
@@ -74,7 +80,7 @@ public class DoctorWorkDao {
 	public Doctorwork getDoctorWork(Doctorwork doctorwork){
 		Session session = HibernateUtil.getSession();
 		String hql = "from Doctorwork where doctorId = " + doctorwork.getDoctorId() +
-				" and workdate = '" + DataUtil.formatDate(doctorwork.getWorkdate(), "yyyy-MM-dd")
+				" and workdate = '" + DataUtil.formatDate(doctorwork.getWorkdate(), "yyyy-MM-dd HH:mm")
 				 + "'";
 		Query query = session.createQuery(hql);
 		List<Doctorwork> doctorworks = query.list();
@@ -102,6 +108,13 @@ public class DoctorWorkDao {
 		}else {
 			return null;
 		}
+	}
+	public List<Doctorwork> getDoctorWorksByDoctorId(Integer id){
+		Session session = HibernateUtil.getSession();
+		String hql = "from Doctorwork where doctorId = " + id;
+		Query query = session.createQuery(hql);
+		List<Doctorwork> doctorworks = query.list();
+		return doctorworks;
 	}
 	public boolean deleteDoctorWorkById(Integer id){
 		Session session = HibernateUtil.getSession();

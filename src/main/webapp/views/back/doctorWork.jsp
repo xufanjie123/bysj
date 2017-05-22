@@ -94,6 +94,8 @@ function openDoctorWorkModifyDialog(){
 function searchDoctorWork(){
 	$('#dg').datagrid('load',{
 		name:$('#s_doctorName').val(),
+		stdate:$('#s_bGhDate').datebox("getValue"),
+		eddate:$('#s_eGhDate').datebox("getValue"),
 		section:$('#s_keshiId').combobox("getValue")
 	});
 }
@@ -114,7 +116,7 @@ function searchDoctorWork(){
 				<th field="doctorname" width="50" align="center" >医生姓名</th>
 				<th field="doctorgender" width="30"  align="center">性别</th>
 				<th field="sectionname" width="50" align="center">科室</th>
-				<th field="workdate" width="80" align="center">上班日期</th>
+				<th field="workdate" width="80" align="center">上班时间</th>
 				<th field="orderNum" width="30" align="center">预约数量</th>
 				<th field="maxNum" width="30" align="center">最多预约数</th>
 			</tr>
@@ -128,6 +130,7 @@ function searchDoctorWork(){
 		<div>
 			<form id="export" method="post">
 			&nbsp;姓名：&nbsp;<input type="text" name="s_doctorName" id="s_doctorName" size="10"/>
+			&nbsp;上班日期：&nbsp;<input class="easyui-datebox" name="s_bGhDate" id="s_bGhDate" editable="false" size="10"/>-><input class="easyui-datebox" name="s_eGhDate" id="s_eGhDate" editable="false" size="10"/>
 			&nbsp;科室：&nbsp;<input class="easyui-combobox" id="s_keshiId" name="s_keshiId" size="10" data-options="panelHeight:'auto',editable:false,valueField:'id',textField:'sectionname',url:'${root }/back/doctorWorkInfo/sections'"/>   
 			<a href="javascript:searchDoctorWork()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
 			</form>
@@ -141,10 +144,6 @@ function searchDoctorWork(){
 				<tr>
 					<td>医生姓名：</td>
 					<td><input type="text" id="doctorName" class="easyui-validatebox" disabled="disabled" required="true"/></td>
-				</tr>
-				<tr>
-					<td>上班日期：</td>
-					<td><input class="easyui-datebox" name="workdate" id="time" disabled="disabled" required="true" editable="false" /></td>
 				</tr>
 				<tr>
 					<td>预约数量：</td>

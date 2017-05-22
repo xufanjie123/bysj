@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.hospital.entity.Admin;
 import com.hospital.entity.Patient;
 import com.hospital.service.AdminService;
+import com.hospital.service.DoctorService;
 import com.hospital.service.LoginService;
 import com.hospital.service.PatientService;
 
@@ -20,6 +21,8 @@ public class LoginPageController {
 	private AdminService adminServie;
 	@Autowired
 	private PatientService patientService;
+	@Autowired 
+	private DoctorService doctorService;
 	@RequestMapping("/resign")
 	public String resign(){
 		return "/resign";
@@ -34,8 +37,10 @@ public class LoginPageController {
 		if(id.equals("admin")){
 			return adminServie.login(username, password, session);
 		}
-		else{
+		else if(id.equals("patient")){
 			return patientService.login(username, password, session);
+		}else {
+			return doctorService.login(username,password,session);
 		}
 	}
 	@RequestMapping("/logout")

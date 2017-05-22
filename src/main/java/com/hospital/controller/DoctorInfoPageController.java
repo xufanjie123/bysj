@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,15 +43,15 @@ public class DoctorInfoPageController {
 	}
 	@RequestMapping("/saveDoctor")
 	@ResponseBody
-	public JSONObject saveDoctor(String name,String gender,String birthday,String school,
+	public JSONObject saveDoctor(String name,String gender,String password,String birthday,String school,
 			String worktime,String sectionId,String title,String skill) throws ParseException{
-		return doctorService.addDoctor(name, gender, birthday, school, worktime, sectionId, title, skill);
+		return doctorService.addDoctor(name, gender, password,birthday, school, worktime, sectionId, title, skill);
 	}
 	@RequestMapping("/saveDoctor/{id}")
 	@ResponseBody
-	public JSONObject updateDoctor(@PathVariable("id") Integer id,String name,String gender,String birthday,String school,
+	public JSONObject updateDoctor(@PathVariable("id") Integer id,String name,String password,String gender,String birthday,String school,
 			String worktime,String sectionId,String title,String skill) throws ParseException{
-		return doctorService.updateDoctor(id, name, gender, birthday, school, worktime, sectionId, title, skill);
+		return doctorService.updateDoctor(id, name,password,gender, birthday, school, worktime, sectionId, title, skill);
 	}
 	@RequestMapping("/deleteDoctors")
 	@ResponseBody
@@ -59,7 +60,12 @@ public class DoctorInfoPageController {
 	}
 	@RequestMapping("/saveDoctorWork/{id}")
 	@ResponseBody
-	public JSONObject saveDoctorWork(@PathVariable("id") Integer id,String workdate,String maxNum) throws ParseException{
-		return doctorWorkService.saveDoctorWork(id, workdate, maxNum);
+	public JSONObject saveDoctorWork(@PathVariable("id") Integer id,String workdate,String worktime,String maxNum) throws ParseException{
+		return doctorWorkService.saveDoctorWork(id, workdate, worktime, maxNum);
+	}
+	@RequestMapping("/export")
+	public String export(String name,String gender,String section,HttpServletResponse response){
+		doctorService.export(name,gender,section,response);
+		return null;
 	}
 }

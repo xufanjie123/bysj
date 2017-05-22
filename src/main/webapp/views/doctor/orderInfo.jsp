@@ -14,39 +14,12 @@
 %>
 <link rel="icon" href="<%=basePath%>/images/favicon.ico"  type="image/x-icon">
 <script type="text/javascript">
-function deleteYuYue(){
-	var selectedRows=$("#dg").datagrid('getSelections');
-	if(selectedRows.length!=1){
-		$.messager.alert("系统提示","请选择一条要取消的预约！");
-		return;
-	}
-	var strIds=[];//要删除的序号组合
-	for(var i=0;i<selectedRows.length;i++){
-		strIds.push(selectedRows[i].id);
-	}
-	var ids=strIds.join(",");
-	$.messager.confirm("系统提示","您确认要取消此次预约吗？",function(r){
-		if(r){
-			//ajax提交 delIds
-			$.post("${root}" + "/back/orderInfo/deleteOrders",{ids:ids},function(result){
-				if(result.success){
-					$.messager.alert("系统提示","您已成功取消预约！");
-					$("#dg").datagrid("reload");
-				}else{
-					$.messager.alert('系统提示',result.errorMsg);
-				}
-			},"json");
-		}
-	});
-}
 
 //查询符合条件的挂号信息
 function searchYuYue(){
 	$('#dg').datagrid('load',{
 		stdate:$('#s_bGhDate').datebox("getValue"),
-		eddate:$('#s_eGhDate').datebox("getValue"),
-		doctorname:$('#s_doctorName').val(),
-		section:$('#s_keshiId').combobox("getValue")
+		eddate:$('#s_eGhDate').datebox("getValue")
 	});
 }
 </script>
@@ -57,27 +30,22 @@ function searchYuYue(){
 <script type="text/javascript" src="${root }/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body style="margin:5px">
-<table id="dg" title="预约信息" class="easyui-datagrid" fitColumns="true" pagination="true" rownumbers="true" url="${root }/front/frontOrderInfo/orders" fit="true" toolbar="#tb">
+<table id="dg" title="预约信息" class="easyui-datagrid" fitColumns="true" pagination="true" rownumbers="true" url="${root }/doctor/orderInfo/orders" fit="true" toolbar="#tb">
 		<thead>
 			<tr>
 				<th field="cb" checkbox="true"></th>
 				<th field="doctorname" width="100"  align="center">医生姓名</th>
 				<th field="sectionname" width="100"  align="center">科室</th>
-				<th field="title" width="100" align="center">职称</th>
 				<th field="ordertime" width="100"  align="center">预约时间</th>
+				<th field="title" width="100" align="center">职称</th>
 				<th field="waitnum" width="150" align="center">预约号</th>
 			</tr>
 		</thead>
 	</table>
 	<div id="tb">
 		<div>
-			<a href="javascript:deleteYuYue()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">取消预约</a>
-		</div>
-		<div>
 		<form id="export" method="post">
 		&nbsp;挂号日期：&nbsp;<input class="easyui-datebox" name="s_bGhDate" id="s_bGhDate" editable="false" size="10"/>-><input class="easyui-datebox" name="s_eGhDate" id="s_eGhDate" editable="false" size="10"/>
-		&nbsp;医生名称：&nbsp;<input class="text" id="s_doctorName" name="s_doctorName" size="10" /> 
-		&nbsp;科室：&nbsp;<input class="easyui-combobox" id="s_keshiId" name="s_keshiId" size="10" data-options="panelHeight:'auto',editable:false,valueField:'id',textField:'sectionname',url:'${root }/back/orderInfo/sections'"/>
 		<a href="javascript:searchYuYue()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
 		</form></div>
 	</div>

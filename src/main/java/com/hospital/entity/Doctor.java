@@ -31,6 +31,7 @@ public class Doctor implements java.io.Serializable {
 	private Integer id;
 	private Integer sectionId;
 	private String doctorname;
+	private String doctorpwd;
 	private String doctorgender;
 	private Date birthday;
 	private String school;
@@ -46,10 +47,11 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Doctor(Integer sectionId, String doctorname, String doctorgender,Date birthday,
+	public Doctor(Integer sectionId, String doctorname,String doctorpwd, String doctorgender,Date birthday,
 			String school, Integer worktime, String title, String skill) {
 		this.sectionId = sectionId;
 		this.doctorname = doctorname;
+		this.doctorpwd = doctorpwd;
 		this.doctorgender = doctorgender;
 		this.birthday = birthday;
 		this.school = school;
@@ -92,6 +94,13 @@ public class Doctor implements java.io.Serializable {
 	}
 	public void setDoctorname(String doctorname) {
 		this.doctorname = doctorname;
+	}
+	@Column(name = "doctorpwd", length = 16)
+	public void setDoctorpwd(String doctorpwd) {
+		this.doctorpwd = doctorpwd;
+	}
+	public String getDoctorpwd() {
+		return doctorpwd;
 	}
 
 	@Column(name = "doctorgender", length = 8)

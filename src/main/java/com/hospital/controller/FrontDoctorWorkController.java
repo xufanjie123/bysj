@@ -1,10 +1,12 @@
 package com.hospital.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +33,9 @@ public class FrontDoctorWorkController {
 	private OrderService orderService;
 	@RequestMapping("/doctorworks")
 	@ResponseBody
-	public JSONObject getDoctorworks(String name,String section,int page,int rows) throws Exception{
-		return doctorWorkService.getDoctorworks(name, section, page, rows);
+	public JSONObject getDoctorworks(String name,String stdate,
+			String eddate,String section,int page,int rows) throws Exception{
+		return doctorWorkService.getDoctorworks(name, stdate,eddate,section, page, rows);
 	}
 	@RequestMapping("/sections")
 	@ResponseBody
@@ -41,7 +44,7 @@ public class FrontDoctorWorkController {
 	}
 	@RequestMapping("/addOrder")
 	@ResponseBody
-	public JSONObject addOrder(String id,HttpSession session){
+	public JSONObject addOrder(String id,HttpSession session) throws HttpException, IOException{
 		return orderService.addOrder(id, session);
 	}
 }

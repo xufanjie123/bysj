@@ -1,18 +1,33 @@
 package com.hospital.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hospital.dao.PatientDao;
+import com.hospital.entity.Doctor;
 import com.hospital.entity.Doctorwork;
 import com.hospital.entity.PageBean;
 import com.hospital.entity.Patient;
+import com.hospital.util.DataUtil;
 import com.hospital.util.HibernateUtil;
 import com.hospital.util.StringUtil;
 
@@ -146,5 +161,83 @@ public class PatientService {
 	public Patient getPatient(HttpSession session){
 		int pid = (Integer) session.getAttribute("currentUserId");
 		return patientDao.getPatientById(pid);
+	}
+	public void export(String name,String truename,String gender,String age,HttpServletResponse response){
+		Patient patient = new Patient();
+		if(!StringUtil.isEmpty(name)){
+			patient.setUsername(name);
+		}
+		if(!StringUtil.isEmpty(truename)){
+			patient.setTruename(truename);
+		}
+		if(!StringUtil.isEmpty(gender)){
+			patient.setPatientgender(gender);
+		}
+		if(!StringUtil.isEmpty(age)){
+			patient.setPatientage(Integer.parseInt(age));
+		}
+		List<Patient> patients= patientDao.getPatients(patient, null);
+		HSSFWorkbook workbook = new HSSFWorkbook();  
+		HSSFSheet sheet = workbook.createSheet("患者信息");  
+		sheet.setDefaultColumnWidth((short) 15);  
+		HSSFCellStyle style = workbook.createCellStyle();  
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		HSSFRow row = sheet.createRow(0);  
+		HSSFCell cell =row.createCell((short) 0);
+		cell.setCellValue("用户名");  
+		cell.setCellStyle(style); 
+		cell =row.createCell((short) 1);
+		cell.setCellValue("密码");  
+		cell.setCellStyle(style);  
+		cell =row.createCell((short) 2);
+		cell.setCellValue("真实姓名");  
+		cell.setCellStyle(style);  
+		cell =row.createCell((short) 3);
+		cell.setCellValue("性别");  
+		cell.setCellStyle(style); 
+		cell =row.createCell((short) 4);
+		cell.setCellValue("年龄");  
+		cell.setCellStyle(style);
+		cell =row.createCell((short) 5);
+		cell.setCellValue("手机号码");  
+		cell.setCellStyle(style);
+		int i = 0;
+		for (Patient patient2 : patients) {
+			i++;
+			row = sheet.createRow(i);  
+			row.createCell((short) 0).setCellValue(patient2.getUsername());
+			row.createCell((short) 1).setCellValue(patient2.getPassword());
+			row.createCell((short) 2).setCellValue(patient2.getTruename());
+			row.createCell((short) 3).setCellValue(patient2.getPatientgender());
+			row.createCell((short) 4).setCellValue(patient2.getPatientage());
+			row.createCell((short) 5).setCellValue(patient2.getDescription());
+		}
+		try  
+		{  
+			FileOutputStream fout = new FileOutputStream("./PatientInfo.xls");  
+			workbook.write(fout);  
+			fout.close();  
+			
+			String path="./PatientInfo.xls";
+			File file = new File(path);  
+			String filename = file.getName();  
+			InputStream fis = new BufferedInputStream(new FileInputStream(path));  
+			byte[] buffer = new byte[fis.available()];  
+			fis.read(buffer);  
+			fis.close();  
+			response.reset();  
+			response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));  
+			response.addHeader("Content-Length", "" + file.length());  
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());  
+			response.setContentType("application/octet-stream");  
+			toClient.write(buffer);  
+			toClient.flush();  
+			toClient.close();
+			file.delete();
+		}  
+		catch (Exception e)  
+		{  
+			e.printStackTrace();  
+		} 
 	}
 }

@@ -88,12 +88,13 @@ if(message == null||message.equals("")){
 			<input name="patientage" class="easyui-numberspinner" style="width:100%;height:32px">
 		</div>
 		<div style="margin-bottom:20px">
-			<div>病情描述:</div>
-			<input name="description" class="easyui-textbox" multiline="true" style="width:100%;height:50px">
+			<div>手机号</div>
+			<input id="phone" name="description" validType="length[11,11]" 
+			required="true" type="text" value="" class="easyui-validatebox" 
+			style="width:100%;height:32px" >
 		</div>
 		<div>
 			<input id="resign" type="submit" class="easyui-linkbutton" style="width:100%;height:32px" value="注册">
-			
 		</div>
 	</form>
 		<script type="text/javascript">

@@ -19,4 +19,9 @@ public class PageBean {
 	public int getStart(){
 		return (page-1)*rows;
 	}
+	@Override
+	public String toString() {
+		return "PageBean [page=" + page + ", rows=" + rows + ", start=" + start + "]";
+	}
+	
 }
